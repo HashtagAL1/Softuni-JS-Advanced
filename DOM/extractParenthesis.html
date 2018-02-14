@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p id="content">
+
+    </p>
+
+    <script>
+        function extractParenthesis(id) {
+            let text = document.getElementById(id).textContent;
+            let matches = text.match(/\(.*?(?=\))/g);
+            let arr = [];
+            if (matches !== null) {
+                for (let m of matches) {
+                    arr.push(m.toString().slice(1));
+                }
+            }
+            return arr.join('; ');
+        }
+    </script>
+
+</body>
+</html>
