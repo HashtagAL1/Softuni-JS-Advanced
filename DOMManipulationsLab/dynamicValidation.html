@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8"><title>Focus</title>
+    <style>.error { border: 2px solid red; }</style>
+</head>
+<body onload="validate()">
+<label for="email">Enter email:</label>
+<input id="email" type="text"/>
+<script>
+    function validate() {
+        let pattern = /^[\w\-.]+@[a-z]+\.[a-z]+$/g;
+        let emailBox = document.getElementById('email');
+        emailBox.addEventListener('change', function () {
+            let email = emailBox.value;
+            let match = email.match(pattern);
+            if (match === null) {
+                emailBox.className = 'error';
+            }
+            else
+                emailBox.className = '';
+        });
+    }
+</script>
+</body>
+</html>
