@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lab.js"></script>
+</head>
+<body>
+    <input type="text" id="num1" />
+    <input type="text" id="num2" />
+    <input type="text" id="result" readonly />
+    <br>
+    <button id="sumButton" onclick="plus()">
+        Sum</button>
+    <button id="subtractButton" onclick="minus()">
+        Subtract</button>
+<script>
+    function plus() {
+        let test = sumSubtractNums();
+        test.init('#num1', '#num2', '#result');
+        test.add();
+    }
+    function minus() {
+        let test = sumSubtractNums();
+        test.init('#num1', '#num2', '#result');
+        test.subtract();
+    }
+</script>
+</body>
+</html>

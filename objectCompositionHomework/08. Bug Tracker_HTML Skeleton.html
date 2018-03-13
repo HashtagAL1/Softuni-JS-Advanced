@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bug Tracker</title>
+    <style>
+        #wrapper {
+            width: 800px;
+            border: 1px solid black;
+        }
+        #titlebar {
+            background-color: beige;
+            font-size: 2em;
+            padding: 0.5em;
+        }
+        .report {
+            margin: 1em;
+            border:1px solid black;
+            width: 400px;
+        }
+        .report .title {
+            background-color: cornflowerblue;
+            color: white;
+            padding: 0.25em;
+            position: relative;
+        }
+        .report .body p {
+            margin: 0.5em;
+        }
+        .report .title .status {
+            display: inline-block;
+            right: 0px;
+            position: absolute;
+            margin-right: 0.5em;
+        }
+    </style>
+    <script src="jQuery.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div id="titlebar">Bug tracker</div>
+    <div id="content">
+
+    </div>
+</div>
+<script>
+
+    function bugTracker() {
+        let obj = (() => {
+            let bugs = [];
+            let id = 0;
+            let sel = undefined;
+            let report = function (author, description, reproducible, severity) {
+                bugs[id] = {
+                    ID: id,
+                    author: author,
+                    description: description,
+                    severity: severity,
+                    status: 'Open',
+                    reproducible: reproducible
+                };
+                id++;
+                if (sel !== undefined) {
+                    add();
+                }
+            };
+
+            let output = function (selector) {
+                sel = selector;
+            };
+
+            let setStatus = function (id, newStatus) {
+                bugs[id].status = newStatus;
+                if (sel !== undefined) {
+                    add();
+                }
+            };
+
+            let remove = function (id) {
+                bugs = bugs.filter(a => a.ID !== id);
+                if (sel !== undefined) {
+                    add();
+                }
+            };
+
+            let sort = function (method) {
+                switch (method) {
+                    case 'ID':
+                        bugs = bugs.sort((a, b) => a.ID - b.ID);
+                        break;
+                    case 'author':
+                        bugs = bugs.sort((a, b) => a.author.localeCompare(b.author));
+                        break;
+                    case 'severity':
+                        bugs = bugs.sort((a, b) => a.severity - b.severity);
+                        break;
+                    default:
+                        bugs = bugs.sort((a, b) => a.ID - b.ID);
+                        break;
+                }
+                if (sel !== undefined) {
+                    add();
+                }
+            };
+
+            let add = function () {
+                let parent = $(sel);
+                parent.html('');
+
+
+
+                for (let b of bugs) {
+                    let reportID = $('<div>').attr('id', 'report_' + b.ID).addClass('report');
+                    let description = $('<div>').addClass('body').append($('<p>').text(b.description));
+                    let title = $('<div>').addClass('title').append($('<span>').addClass('author').text('Submitted by: ' + b.author));
+                    title.append($('<span>').addClass('status').text(b.status + ' | ' + b.severity));
+                    reportID.append(description).append(title);
+                    parent.append(reportID)
+                }
+            };
+
+            return {report, output, setStatus, remove, sort};
+
+        })();
+        return obj;
+    }
+
+    let tracker = bugTracker();
+
+    tracker.output('#content');
+    tracker.report('nasko', 'bok', true, 5);
+    tracker.report('samoten', 'sum', true, 12);
+    //tracker.remove(2);
+</script>
+</body>
+</html>
